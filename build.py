@@ -23,64 +23,6 @@ def next_build_number():
 
     return build_number
 
-
-def make_header():
-    now = datetime.datetime.now()
-
-    file = open('include\\version.h', 'w')
-
-    file.write('#define COMPANY_NAME_STR\t"' + os.environ['COMPANY_NAME'] + '"\n')
-    file.write('#define PRODUCT_NAME_STR\t"' + os.environ['PRODUCT_NAME'] + '"\n')
-    file.write('\n')
-
-    file.write('#define MAJOR_VERSION\t' + os.environ['MAJOR_VERSION'] + '\n')
-    file.write('#define MAJOR_VERSION_STR\t"' + os.environ['MAJOR_VERSION'] + '"\n')
-    file.write('\n')
-
-    file.write('#define MINOR_VERSION\t' + os.environ['MINOR_VERSION'] + '\n')
-    file.write('#define MINOR_VERSION_STR\t"' + os.environ['MINOR_VERSION'] + '"\n')
-    file.write('\n')
-
-    file.write('#define MICRO_VERSION\t' + os.environ['MICRO_VERSION'] + '\n')
-    file.write('#define MICRO_VERSION_STR\t"' + os.environ['MICRO_VERSION'] + '"\n')
-    file.write('\n')
-
-    file.write('#define BUILD_NUMBER\t' + os.environ['BUILD_NUMBER'] + '\n')
-    file.write('#define BUILD_NUMBER_STR\t"' + os.environ['BUILD_NUMBER'] + '"\n')
-    file.write('\n')
-
-    file.write('#define YEAR\t' + str(now.year) + '\n')
-    file.write('#define YEAR_STR\t"' + str(now.year) + '"\n')
-    file.write('\n')
-
-    file.write('#define MONTH\t' + str(now.month) + '\n')
-    file.write('#define MONTH_STR\t"' + str(now.month) + '"\n')
-    file.write('\n')
-
-    file.write('#define DAY\t' + str(now.day) + '\n')
-    file.write('#define DAY_STR\t"' + str(now.day) + '"\n')
-    file.write('\n')
-
-    file.close()
-
-
-def copy_inf(name, vs):
-    src = open('src\\%s.inf' % name, 'r')
-    dst = open(vs+'\\%s.inf' % name, 'w')
-
-    for line in src:
-        line = re.sub('@MAJOR_VERSION@', os.environ['MAJOR_VERSION'], line)
-        line = re.sub('@MINOR_VERSION@', os.environ['MINOR_VERSION'], line)
-        line = re.sub('@MICRO_VERSION@', os.environ['MICRO_VERSION'], line)
-        line = re.sub('@BUILD_NUMBER@', os.environ['BUILD_NUMBER'], line)
-        line = re.sub('@COMPANY_NAME@', os.environ['COMPANY_NAME'], line)
-        line = re.sub('@PRODUCT_NAME@', os.environ['PRODUCT_NAME'], line)
-        dst.write(line)
-
-    dst.close()
-    src.close()
-
-
 def get_expired_symbols(name, age = 30):
     path = os.path.join(os.environ['SYMBOL_SERVER'], '000Admin\\history.txt')
 
@@ -410,10 +352,6 @@ if __name__ == '__main__':
         revision = open('revision', 'w')
         print(os.environ['GIT_REVISION'], file=revision)
         revision.close()
-
-    make_header()
-
-    copy_inf(driver, vs )
 
     symstore_del(driver, 30)
 
