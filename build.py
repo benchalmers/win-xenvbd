@@ -417,7 +417,10 @@ if __name__ == '__main__':
 
     symstore_del(driver, 30)
 
-    release = 'Windows Vista'
+    if vs=='vs2012':
+        release = 'Windows Vista'
+    else:
+        release = 'Windows 7'
 
     build_sln(driver, release, 'x86', debug[sys.argv[1]], vs)
     build_sln(driver, release, 'x64', debug[sys.argv[1]], vs)
